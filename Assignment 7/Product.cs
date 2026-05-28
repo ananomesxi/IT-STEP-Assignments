@@ -7,19 +7,19 @@ namespace Assignment_7
     public class Product
     {
 
-        #region fields
+        #region properties
 
-        public int Id;
-        public string Name;
-        public string Description;
-        public double Price;
-        public int Quantity;
-        public string Brand;
-        public string Category;
-        public double Rating;
-        public bool IsAvailable;
-        public double DiscountPercent;
-        public int NumberOfRatings;
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public double Price { get; set; }
+        public int Quantity { get; set; }
+        public string Brand { get; set; }
+        public string Category { get; set; }
+        public double Rating { get; set; }
+        public bool IsAvailable { get; set; }
+        public double DiscountPercent { get; set; }
+        public int NumberOfRatings { get; set; } 
 
         #endregion
 
