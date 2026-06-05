@@ -26,13 +26,19 @@ namespace Assignment_9
         Fax
     }
 
+    public class Contact {
+      public Contacts { get; set; }
+    }
+
+
+
     internal class Employee
     {
         private string _name;
         private string _surname;
         private DateTime _dateOfBirth;
 
-        public Employee(string name, string surname, DateTime dateOfBirth, Countries country, Genders gender, Contacts contact)
+        public Employee(string name, string surname, DateTime dateOfBirth, Countries country, Genders gender, Contacts contact, string contactValue)
         {
             Name = name;
             Surname = surname;
@@ -40,6 +46,7 @@ namespace Assignment_9
             Country = country;
             Gender = gender;
             Contact = contact;
+            ContactValue = contactValue;
         }
 
         public string Name
@@ -93,6 +100,7 @@ namespace Assignment_9
 
         public Contacts Contact { get; set; }
 
+        public string ContactValue { get; set; }
 
 
         public int EmployeeAge ()
