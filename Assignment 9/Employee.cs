@@ -26,12 +26,6 @@ namespace Assignment_9
         Fax
     }
 
-    public class Contact {
-      public Contacts { get; set; }
-    }
-
-
-
     internal class Employee
     {
         private string _name;
