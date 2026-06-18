@@ -1,6 +1,8 @@
 <Solution>
+  <Project Path="(Optional) Assignment 12/(Optional) Assignment 12.csproj" Id="3a79c973-3454-4a7d-96ac-7170a059fa9f" />
   <Project Path="Assignment 10/Assignment 10.csproj" Id="ef7a4852-e9a9-4b57-8ce7-b818a76bff27" />
   <Project Path="Assignment 11/Assignment 11.csproj" Id="09bd6467-fea0-4d49-bdd5-65f6e3cf1d58" />
+  <Project Path="Assignment 13/Assignment 13.csproj" Id="f7172bd3-b530-4714-9da0-0a6678dd7251" />
   <Project Path="Assignment 3/Assignment 3.csproj" Id="91091124-b2d4-41ce-b1a6-5799e4a86bdf" />
   <Project Path="Assignment 4/Assignment 4.csproj" Id="6c31106c-1b64-4d7c-90d2-786df3f1d8f4" />
   <Project Path="Assignment 5/Assignment 5.csproj" Id="9404244e-bf72-4ff8-81a4-624ed9280a58" />

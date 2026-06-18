@@ -1,0 +1,10 @@
+Alex,Kapanadze,17,a.kapa@gmail.com,558199432,98.5,IT
+Giorgi,Meskhi,21,g.mesk@gmail.com,577382123,78.32,Business
+Ana,Beridze,22,a.beri@gmail.com,585328234,84,Medicine
+Luka,Julakadze,19,l.jula@gmail.com,585239201,99,IT
+Salome,Iashvili,22,s.iash@gmail.com,558329123,100,Design
+Mariam,Khizanishvili,23,"m.khiz@gmail.com,577238291,53.23,Design
+Elene,Dvalishvili,17,e.dval@gmail.com,558293103,51,IT
+Lile,Liparteliani,20,l.lipa@gmail.com,585293012,67.67,Design
+Nini,Pakatsoshvili",25,n.paka@gmail.com,558201294,83,Medicine
+Sopho,Zaridze,24,s.zari@gmail.com,577294023,81,Business
