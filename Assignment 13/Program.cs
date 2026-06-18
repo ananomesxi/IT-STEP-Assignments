@@ -7,12 +7,14 @@ namespace Assignment_13
         static void Main(string[] args)
         {
             // try - catch რამდენად სწორად მაქვს არ ვიცი და რომ ნახოთ :"> 
+            // StreamReader და using გამოვიყენე, ამიტომ Dispose აღარ დამჭირდა. უბრალოდ Logger კლასი აღარ შევქმენი, ცოტა ვერ გავიგე რისთვის გვჭირდება...
 
-            Student[] students = new Student[0]; // ეს თრაის გარეთ დავწერე, რადგან პირველი თრაის მერე აღარ აღიქვამდა პროგრამა რატომღაც
-            
-            try { // პირველი თრაი (სიის შედგენისას)
+            Student[] students = new Student[0]; // ეს try-ის გარეთ დავწერე, რადგან პირველი try-ის მერე აღარ აღიქვამდა პროგრამა რატომღაც
 
-            string path = @"../../../data.txt";
+            try { // პირველი try (სიის შედგენისას)
+
+                string path = @"../../../data.txt";
+
             using StreamReader reader = new StreamReader(path);
             
             int index = 0;
@@ -48,11 +50,12 @@ namespace Assignment_13
 
 
             byte UserChoice = 0;
-            while (UserChoice != 10) // აქ 2 ვარიანტი დავამატე (ბონუსში რაც ეწერა, პრინტი და ორი სტუდენტის შედარება) და ამიტომაა 10 ვარიანტი.
+            while (UserChoice != 10) // აქ 2 ვარიანტი დავამატე (ბონუსში რაც ეწერა, Print() და ორი სტუდენტის შედარება) და ამიტომაა 10 ვარიანტი.
                 {
                     try // მეორე თრაი (თვითონ პროგრამის მუშაობისას)
                     {
-                        StudentMethods.LoadMenu();
+                        StudentMethods.LoadMenu(); // კონსოლში გამოიტანს მენიუს
+
                         if (!byte.TryParse(Console.ReadLine(), out UserChoice))
                         {
                             throw new InvalidChoice();
@@ -175,7 +178,7 @@ namespace Assignment_13
                                 }
                         case 10:
                             {
-                                break;
+                                break; // ეს რომ არ დამეწერა ექსეფშენზე გადიოდა (invalid choice) ამიტომ მაინც დავუწერე
                             }
                         default:
                                 {
