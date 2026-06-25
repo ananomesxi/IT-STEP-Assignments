@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Assignment_14.Exceptions
+namespace Assignment_15.Exceptions
 {
     internal class NullOrWhiteSpaceException : Exception
     {
