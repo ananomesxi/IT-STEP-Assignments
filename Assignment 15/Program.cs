@@ -7,11 +7,13 @@ namespace Assignment_15
     {
         static void Main(string[] args)
         {
+            // სტუდენტ კლასი არ შევქმენი, მგონი არ იყო საჭირო კონკრეტულად ამ დავალებაში
+
             try
             {
                 List<string> nameList = new List<string>();
                 Dictionary<string, int> pointsDict = new Dictionary<string, int>();
-
+                
                 while (true)
                 {
                     {
@@ -44,17 +46,16 @@ namespace Assignment_15
                             }
                         case "5":
                             {
-                                return;
+                                return; // პროგრამა გაჩერდება 
                             }
                         default:
                             {
                                 throw new InvalidOptionException();
-                                break;
                             }
                     }
                 }
             }
-            catch (InvalidOptionException ex)
+            catch (InvalidOptionException ex)  
             {
                 Console.WriteLine(ex.Message);
             }

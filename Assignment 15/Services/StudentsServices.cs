@@ -7,7 +7,7 @@ namespace Assignment_15.Services
 {
     internal class StudentsServices
     {
-        public static void ShowMenu()
+        public static void ShowMenu() 
         {
             Console.WriteLine("1. Add a new student.");
             Console.WriteLine("2. Find a student.");
@@ -22,10 +22,10 @@ namespace Assignment_15.Services
             string userInputName = Console.ReadLine();
             if (String.IsNullOrWhiteSpace(userInputName))
             {
-                throw new NullOrWhiteSpaceException();
+                throw new NullOrWhiteSpaceException(); // ბარემ საკუთარი ექსეფშენებიც შევუქმენი
             }
 
-            if (pointsDict.ContainsKey(userInputName))
+            if (pointsDict.ContainsKey(userInputName)) // ამოწმებს უკვე გვაქვს თუ არა სახელი სიაში
             {
                 throw new ContainsNameException();
             }
@@ -53,7 +53,7 @@ namespace Assignment_15.Services
             {
                 throw new NullOrWhiteSpaceException();
             }
-            if (!pointsDict.ContainsKey(userInputName))
+            if (!pointsDict.ContainsKey(userInputName)) 
             {
                 throw new NotContainsNameException();
             }
@@ -80,7 +80,7 @@ namespace Assignment_15.Services
             {
                 throw new FormatException();
             }
-            if (userInputPoints < 0 || userInputPoints > 100)
+            if (userInputPoints < 0 || userInputPoints > 100) 
             {
                 throw new InvalidPointsException();
             }
