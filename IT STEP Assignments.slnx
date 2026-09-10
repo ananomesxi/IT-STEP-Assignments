@@ -1,4 +1,10 @@
 <Solution>
+  <Folder Name="/UniversityProject/">
+    <Project Path="UniversityApplication/UniversityApplication.csproj" Id="f937c3dd-777b-45b0-82d7-456bce9a0181" />
+    <Project Path="UniversityDomain/UniversityDomain.csproj" Id="4635d362-2cd1-4ab6-88bf-8dba6e7f6298" />
+    <Project Path="UniversityInfrastructure/UniversityInfrastructure.csproj" Id="f71f0b43-1c92-4100-87a0-b4237d3770dd" />
+    <Project Path="UniversityPresentation/UniversityPresentation.csproj" Id="e88e2103-fd44-4a5a-b1e5-0413988f7325" />
+  </Folder>
   <Project Path="(Optional) Assignment 12/(Optional) Assignment 12.csproj" Id="3a79c973-3454-4a7d-96ac-7170a059fa9f" />
   <Project Path="Assignment 10/Assignment 10.csproj" Id="ef7a4852-e9a9-4b57-8ce7-b818a76bff27" />
   <Project Path="Assignment 11/Assignment 11.csproj" Id="09bd6467-fea0-4d49-bdd5-65f6e3cf1d58" />
