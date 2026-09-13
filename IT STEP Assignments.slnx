@@ -1,4 +1,10 @@
 <Solution>
+  <Folder Name="/MovieEF/">
+    <Project Path="MovieApplication/MovieApplication.csproj" Id="dbbc89a0-890d-4795-9cbc-f4a5bb081eb0" />
+    <Project Path="MovieDomain/MovieDomain.csproj" Id="e1ae569e-e3bd-4950-9aa4-ba5e5d5a373d" />
+    <Project Path="MovieInfrastructure/MovieInfrastructure.csproj" Id="939bf5f9-65e4-4db2-adec-a33419afa20e" />
+    <Project Path="MovieUI/MovieUI.csproj" Id="00fba0aa-0b4a-432e-bb94-36e08daae625" />
+  </Folder>
   <Folder Name="/UniversityProject/">
     <Project Path="UniversityApplication/UniversityApplication.csproj" Id="f937c3dd-777b-45b0-82d7-456bce9a0181" />
     <Project Path="UniversityDomain/UniversityDomain.csproj" Id="4635d362-2cd1-4ab6-88bf-8dba6e7f6298" />
