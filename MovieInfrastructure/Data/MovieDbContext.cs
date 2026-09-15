@@ -18,6 +18,7 @@ namespace MovieInfrastructure.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            // jsonshi gavitano todo
             optionsBuilder.UseSqlServer("my db");
         }
 

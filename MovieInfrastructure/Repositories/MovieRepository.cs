@@ -1,0 +1,32 @@
+﻿using Microsoft.EntityFrameworkCore;
+using MovieDomain.Entities;
+using MovieDomain.Intefraces;
+using MovieInfrastructure.Data;
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace MovieInfrastructure.Repositories
+{
+    public class MovieRepository : IMovieRepository
+    {
+        private readonly MovieDbContext _movieDbContext;
+        public MovieRepository(MovieDbContext movieDbContext)
+        {
+            _movieDbContext = movieDbContext;
+        }
+
+
+
+        public async Task AddMovie(Movie movie)
+        {
+            await _movieDbContext.Movies.AddAsync(movie);
+            await _movieDbContext.SaveChangesAsync();
+        }
+
+        public async Task<ICollection<Movie>> GetAllMovies()
+        {
+            return await _movieDbContext.Movies.Include(m => m.Studio).ToListAsync();
+        }
+    }
+}
