@@ -12,8 +12,8 @@ namespace MovieDomain.Entities
         [MaxLength(100)]
         public string Name { get; set; } = string.Empty;
         public int CountryId { get; set; }
-        public Country Country { get; set; } = new Country();
-        public StudioDetails StudioDetails { get; set; } = new StudioDetails();
+        public Country Country { get; set; }
+        public StudioDetails StudioDetails { get; set; }
         public ICollection<Movie> Movies { get; set; } = new List<Movie>();
     }
 }

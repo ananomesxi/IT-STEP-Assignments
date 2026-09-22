@@ -75,6 +75,23 @@ namespace MovieInfrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Countries");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "USA"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "UK"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "France"
+                        });
                 });
 
             modelBuilder.Entity("MovieDomain.Entities.Movie", b =>

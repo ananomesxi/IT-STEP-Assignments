@@ -11,7 +11,7 @@ namespace MovieDomain.Entities
         [Required]
         public string LicenseNumber { get; set; } = string.Empty;
         public int StudioId { get; set; }
-        public Studio Studio { get; set; } = new Studio();
+        public Studio Studio { get; set; }
 
     }
 }

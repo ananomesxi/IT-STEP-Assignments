@@ -11,7 +11,7 @@ using MovieInfrastructure.Data;
 namespace MovieInfrastructure.Migrations
 {
     [DbContext(typeof(MovieDbContext))]
-    [Migration("20260915135052_CreateDb")]
+    [Migration("20260921205818_CreateDb")]
     partial class CreateDb
     {
         /// <inheritdoc />
@@ -78,6 +78,23 @@ namespace MovieInfrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Countries");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "USA"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "UK"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "France"
+                        });
                 });
 
             modelBuilder.Entity("MovieDomain.Entities.Movie", b =>

@@ -9,5 +9,9 @@ namespace MovieDomain.Intefraces
     {
         Task<ICollection<Movie>> GetAllMovies();
         Task AddMovie(Movie movie);
+        Task<Movie> GetMovieById(int id);
+        Task DeleteMovie(int id);
+        Task UpdateMovie(Movie movie);
+
     }
 }

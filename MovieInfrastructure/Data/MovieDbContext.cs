@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
+using Microsoft.Extensions.Configuration;
 using MovieDomain.Entities;
 using System;
 using System.Collections.Generic;
@@ -18,8 +19,14 @@ namespace MovieInfrastructure.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            // jsonshi gavitano todo
-            optionsBuilder.UseSqlServer("my db");
+            IConfiguration configuration = new ConfigurationBuilder()
+                .SetBasePath(AppContext.BaseDirectory)
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .Build();
+
+            var _connectionString = configuration.GetConnectionString("DefaultConnection");
+
+            optionsBuilder.UseSqlServer(_connectionString);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -40,6 +47,13 @@ namespace MovieInfrastructure.Data
                 .HasMany(m => m.Actors)
                 .WithMany(a => a.Movies)
                 .UsingEntity(j => j.ToTable("MovieActors"));
+            //data seeding
+            modelBuilder.Entity<Country>()
+                .HasData(
+                    new Country { Id = 1, Name = "USA" },
+                    new Country { Id = 2, Name = "UK" },
+                    new Country { Id = 3, Name = "France" }
+                );
         }
     }
 }
