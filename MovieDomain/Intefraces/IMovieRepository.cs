@@ -7,11 +7,14 @@ namespace MovieDomain.Intefraces
 {
     public interface IMovieRepository
     {
-        Task<ICollection<Movie>> GetAllMovies();
-        Task AddMovie(Movie movie);
-        Task<Movie> GetMovieById(int id);
-        Task DeleteMovie(int id);
-        Task UpdateMovie(Movie movie);
+        Task<ICollection<Movie>> GetAllMoviesAsync();
+        Task AddMovieAsync(Movie movie);
+        Task<Movie> GetMovieByIdAsync(int id);
+        Task DeleteMovieAsync(int id);
+        Task UpdateMovieAsync(int id, Movie movie);
+        Task<ICollection<Movie>> SearchMoviesByStudioAsync(int year, string studioName, int minActorCount);
+        Task<ICollection<Movie>> SearchMoviesByCountryAsync(string countryName, int minYear, int maxActorCount);
+        Task<ICollection<Movie>> SearchMoviesAdvancedAsync(int fromYear, int toYear, string countryName, string titleText, int minActorCount);
 
     }
 }

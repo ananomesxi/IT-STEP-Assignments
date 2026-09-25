@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualBasic;
 using MovieDomain.Entities;
 using MovieDomain.Intefraces;
 using MovieInfrastructure.Data;
@@ -18,45 +19,89 @@ namespace MovieInfrastructure.Repositories
 
 
 
-        public async Task AddMovie(Movie movie)
+        public async Task AddMovieAsync(Movie movie)
         {
             await _movieDbContext.Movies.AddAsync(movie);
-            await _movieDbContext.SaveChangesAsync();
+            //await _movieDbContext.SaveChangesAsync(); ჩავანაცვლეთ unitOfWork-ით
         }
 
-        public async Task<ICollection<Movie>> GetAllMovies()
+        public async Task<ICollection<Movie>> GetAllMoviesAsync()
         {
             return await _movieDbContext.Movies.Include(m => m.Studio).ToListAsync();
         }
 
-        public async Task<Movie> GetMovieById (int id)
+        public async Task<Movie> GetMovieByIdAsync (int id)
         {
             return await _movieDbContext.Movies.Include(m => m.Studio).FirstOrDefaultAsync(m => m.Id == id);
         }
 
-        public async Task DeleteMovie(int id)
+        public async Task DeleteMovieAsync(int id)
         {
-            var movie = await _movieDbContext.Movies.FindAsync(id);
-            if (movie == null)
+
+            var movieExists = await _movieDbContext.Movies
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (movieExists == null)
             {
-                return;
+                throw new ArgumentException("Movie not found");
             }
-            _movieDbContext.Movies.Remove(movie);
-            await _movieDbContext.SaveChangesAsync();
+
+            _movieDbContext.Movies.Remove(movieExists);
+            //await _movieDbContext.SaveChangesAsync();
+
         }
 
-        public async Task UpdateMovie (Movie movie)
+        public async Task UpdateMovieAsync (int id, Movie movie)
         {
-            var exMovie = await _movieDbContext.Movies.FindAsync(movie.Id);
-            if (exMovie == null)
+            var movieEx = await _movieDbContext.Movies.FirstOrDefaultAsync(m => m.Id == id);
+            if (movie == null)
             {
-                return;
+                throw new ArgumentException("Movie not found.");
             }
-            exMovie.Title = movie.Title;
-            exMovie.ReleaseYear = movie.ReleaseYear;
-            exMovie.StudioId = movie.StudioId;
+            movieEx.Title = movie.Title;
+            movieEx.ReleaseYear = movie.ReleaseYear;
+            movieEx.StudioId = movie.StudioId;
+            //await _movieDbContext.SaveChangesAsync();
+        }
 
-            await _movieDbContext.SaveChangesAsync();
+        public async Task<ICollection<Movie>> SearchMoviesByStudioAsync (int year, string studioName, int minActorCount) {
+            var movies = await _movieDbContext.Movies
+                .Include(m => m.Studio)
+                .ThenInclude(s => s.Country)
+                .Include(m => m.Actors)
+                .Where(m => m.ReleaseYear >= year && m.Studio.Name == studioName && m.Actors.Count() >= minActorCount)
+                .OrderByDescending(m => m.ReleaseYear)
+                .ThenBy(m => m.Title)
+                .ToListAsync();
+            return movies;
+        }
+
+        public async Task<ICollection<Movie>> SearchMoviesByCountryAsync (string countryName, int minYear, int maxActorCount)
+        {
+            var movies = await _movieDbContext.Movies
+                .Include(m => m.Actors)
+                .Include(m => m.Studio)
+                .ThenInclude(s => s.Country)
+                .Where(m => m.Studio.Country.Name == countryName && m.ReleaseYear >= minYear && m.Actors.Count() <= maxActorCount)
+                .OrderBy(m => m.Actors.Count())
+                .ThenByDescending(m => m.ReleaseYear)
+                .ThenBy(m => m.Title)
+                .ToListAsync();
+            return movies;
+        }
+
+        public async Task<ICollection<Movie>> SearchMoviesAdvancedAsync (int fromYear, int toYear, string countryName, string titleText, int minActorCount)
+        {
+            var movies = await _movieDbContext.Movies
+                .Include(m => m.Actors)
+                .Include(m => m.Studio)
+                .ThenInclude(s => s.Country)
+                .Where(m => m.ReleaseYear >= fromYear && m.ReleaseYear <= toYear && m.Studio.Country.Name == countryName && m.Title.Contains(titleText) && m.Actors.Count() >= minActorCount)
+                .OrderByDescending(m => m.Actors.Count())
+                .ThenByDescending(m => m.ReleaseYear)
+                .ThenBy(m => m.Studio.Name)
+                .ThenBy(m => m.Title)
+                .ToListAsync();
+            return movies;
         }
     }
 }

@@ -9,9 +9,12 @@ namespace MovieApplication.Interfaces
     {
         Task<ICollection<MovieDTO>> GetAllMoviesAsync();
         Task AddMovieAsync(CreateMovieDTO createMovieDto);
-        Task<MovieDTO> GetMovieById(int id);
-        Task DeleteMovie(int id);
-        Task UpdateMovie(int id, string title, int releaseYear, int studioId);
+        Task<MovieDTO> GetMovieByIdAsync(int id);
+        Task DeleteMovieAsync(int id);
+        Task UpdateMovieAsync(int id, UpdateMovieDTO movieDto);
+        Task<ICollection<SearchMovieDTO>> SearchMoviesByStudioAsync(int year, string studioName, int minActorCount);
+        Task<ICollection<SearchMovieDTO>> SearchMoviesByCountryAsync(string countryName, int minYear, int maxActorCount);
+        Task<ICollection<SearchMovieDTO>> SearchMoviesAdvancedAsync(int fromYear, int toYear, string countryName, string titleText, int minActorCount);
 
     }
 }

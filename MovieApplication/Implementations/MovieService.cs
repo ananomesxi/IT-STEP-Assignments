@@ -11,13 +11,16 @@ namespace MovieApplication.Implementations
     public class MovieService : IMovieService
     {
         private readonly IMovieRepository _movieRepository;
-        public MovieService(IMovieRepository movieRepository)
+        private readonly IUnitOfWork _unitOfWork;
+
+        public MovieService(IMovieRepository movieRepository, IUnitOfWork unitOfWork)
         {
             _movieRepository = movieRepository;
+            _unitOfWork = unitOfWork;
         }
         public async Task<ICollection<MovieDTO>> GetAllMoviesAsync() 
         {
-            var movies = await _movieRepository.GetAllMovies();
+            var movies = await _movieRepository.GetAllMoviesAsync();
             var movieDtos = movies.Select(m => new MovieDTO
             {
                 Title = m.Title,
@@ -55,13 +58,14 @@ namespace MovieApplication.Implementations
                 ReleaseYear = createMovieDto.ReleaseYear,
                 StudioId = createMovieDto.StudioId
             };
-            await _movieRepository.AddMovie(movie);
+            await _movieRepository.AddMovieAsync(movie);
+            await _unitOfWork.SaveChangesAsync();
         }
 
-        public async Task<MovieDTO> GetMovieById (int id)
+        public async Task<MovieDTO> GetMovieByIdAsync (int id)
         {
             
-            var movie = await _movieRepository.GetMovieById(id);
+            var movie = await _movieRepository.GetMovieByIdAsync(id);
 
             if (movie == null)
             {
@@ -77,23 +81,127 @@ namespace MovieApplication.Implementations
             return movieDto;
         }
 
-        public async Task DeleteMovie (int id)
+        public async Task DeleteMovieAsync (int id)
         {
-            await _movieRepository.DeleteMovie(id);
+            if (id <= 0)
+            {
+                throw new ArgumentException("Movie id must be positive", nameof(id));
+            }
+            await _movieRepository.DeleteMovieAsync(id);
+            await _unitOfWork.SaveChangesAsync();
         }
 
-        public async Task UpdateMovie (int id,string title, int releaseYear, int studioId)
+        public async Task UpdateMovieAsync(int id, UpdateMovieDTO movieDto)
         {
-            var movie = await _movieRepository.GetMovieById(id);
 
-            if (movie == null)
-                return;
+            if (movieDto == null)
+            {
+                throw new ArgumentNullException(nameof(movieDto));
+            }
+            if (string.IsNullOrWhiteSpace(movieDto.Title))
+            {
+                throw new ArgumentException("Movie title cannot be null or empty.", nameof(movieDto.Title));
+            }
+            if (movieDto.ReleaseYear < 0)
+            {
+                throw new ArgumentException("Movie release year cannot be negative.", nameof(movieDto.ReleaseYear));
+            }
+            if (movieDto.ReleaseYear > DateTime.Now.Year)
+            {
+                throw new ArgumentException("Movie release year cannot be from future.", nameof(movieDto.ReleaseYear));
+            }
+            if (movieDto.StudioId <= 0)
+            {
+                throw new ArgumentException("Movie studio ID must be a positive integer.", nameof(movieDto.StudioId));
+            }
 
-            movie.Title = title;
-            movie.ReleaseYear = releaseYear;
-            movie.StudioId = studioId;
-
-            await _movieRepository.UpdateMovie(movie);
+            var movie = new Movie
+            {
+                Title = movieDto.Title,
+                ReleaseYear = movieDto.ReleaseYear,
+                StudioId = movieDto.StudioId
+            };
+            await _movieRepository.UpdateMovieAsync(id, movie);
+            await _unitOfWork.SaveChangesAsync();
         }
+
+        public async Task<ICollection<SearchMovieDTO>> SearchMoviesByStudioAsync(int year, string studioName, int minActorCount) 
+        { 
+            if (year < 0)
+            {
+                throw new ArgumentException("Year cannot be negative.", nameof(year));
+            }
+            if (string.IsNullOrWhiteSpace(studioName))
+            {
+                throw new ArgumentNullException("Studio name cannot be null or empty", nameof(studioName));
+            }
+            if(minActorCount < 0)
+            {
+                throw new ArgumentException("Actor count cannot be negative.", nameof(minActorCount));
+            }
+            var movies = await _movieRepository.SearchMoviesByStudioAsync(year, studioName, minActorCount);
+            var movieDtos = movies.Select(MapSearchMovieDTO).ToList();
+            return movieDtos;
+        }
+
+        public async Task<ICollection<SearchMovieDTO>> SearchMoviesByCountryAsync(string countryName, int minYear, int maxActorCount)
+        {
+            if (string.IsNullOrWhiteSpace(countryName))
+            {
+                throw new ArgumentNullException("Country name cannot be null or empty", nameof(countryName));
+            }
+            if (minYear < 0)
+            {
+                throw new ArgumentException("Year cannot be negative.", nameof(minYear));
+            }
+            if (maxActorCount < 0)
+            {
+                throw new ArgumentException("Actor count cannot be negative.", nameof(maxActorCount));
+            }
+            var movies = await _movieRepository.SearchMoviesByCountryAsync(countryName, minYear, maxActorCount);
+            var movieDtos = movies.Select(MapSearchMovieDTO).ToList();
+            return movieDtos;
+        }
+
+        public async Task<ICollection<SearchMovieDTO>> SearchMoviesAdvancedAsync(int fromYear, int toYear, string countryName, string titleText, int minActorCount)
+        {
+            if (string.IsNullOrWhiteSpace(countryName))
+            {
+                throw new ArgumentNullException("Country name cannot be null or empty", nameof(countryName));
+            }
+            if (string.IsNullOrWhiteSpace(titleText))
+            {
+                throw new ArgumentNullException("Text cannot be null or empty", nameof(titleText));
+            }
+            if (fromYear < 0)
+            {
+                throw new ArgumentException("Year cannot be negative.", nameof(fromYear));
+            }
+            if (toYear < 0)
+            {
+                throw new ArgumentException("Year cannot be negative.", nameof(toYear));
+            }
+            if (minActorCount < 0)
+            {
+                throw new ArgumentException("Actor count cannot be negative.", nameof(minActorCount));
+            }
+            var movies = await _movieRepository.SearchMoviesAdvancedAsync(fromYear, toYear, countryName, titleText, minActorCount);
+            var movieDtos = movies.Select(MapSearchMovieDTO).ToList();
+            return movieDtos;
+
+        }
+
+        private static SearchMovieDTO MapSearchMovieDTO (Movie movie)
+        {
+            return new SearchMovieDTO
+            {
+                Title = movie.Title,
+                ReleaseYear = movie.ReleaseYear,
+                StudioName = movie.Studio.Name,
+                CountryName = movie.Studio.Country.Name,
+                ActorCount = movie.Actors.Count(),
+            };
+        }
+
     }
 }
