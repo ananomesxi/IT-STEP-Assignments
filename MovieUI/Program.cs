@@ -90,6 +90,10 @@ namespace MovieUI
             //    Console.WriteLine();
             //}
 
+            CancellationTokenSource cts = new CancellationTokenSource();
+
+            var movies = await movieService.GetAllMoviesAsync(cts.Token);
+
             var searched = await movieService.SearchMoviesByStudioAsync(1500, "Warner Bros", 1);
             foreach (var item in searched)
             {

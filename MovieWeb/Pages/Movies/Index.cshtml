@@ -1,0 +1,45 @@
+﻿@page
+@model MovieWeb.Pages.Movies.IndexModel
+
+<main class="movies-page container py-5">
+    <header class="movies-heading mb-4">
+        <p class="movies-eyebrow mb-2">MOVIE COLLECTION</p>
+        <h1 class="display-5 fw-bold mb-2">Browse movies</h1>
+        <p class="text-secondary mb-0">Choose a movie to see its details.</p>
+    </header>
+
+    @if (Model.Movies.Count == 0)
+    {
+        <div class="alert alert-light border movies-empty" role="status">
+            No movies are available yet.
+        </div>
+    }
+    else
+    {
+        <div class="row g-4">
+            @foreach (var movie in Model.Movies)
+            {
+                <div class="col-12 col-md-6 col-xl-4">
+                    <article class="movie-card h-100">
+                        <div class="movie-card-topline" aria-hidden="true"></div>
+                        <div class="movie-card-body">
+                            <p class="movie-card-label mb-2">FEATURED FILM</p>
+                            <h2 class="h4 movie-card-title mb-3">
+                                <a asp-page="/Movies/Details" asp-route-id="@movie.Id" class="movie-title-link">
+                                    @movie.Title
+                                </a>
+                            </h2>
+                            <div class="movie-card-meta">
+                                <span class="movie-year">@movie.ReleaseYear</span>
+                                <span class="movie-studio">@movie.StudioName</span>
+                            </div>
+                            <a asp-page="/Movies/Details" asp-route-id="@movie.Id" class="btn btn-primary movie-details-button mt-4">
+                                See details <span aria-hidden="true">→</span>
+                            </a>
+                        </div>
+                    </article>
+                </div>
+            }
+        </div>
+    }
+</main>

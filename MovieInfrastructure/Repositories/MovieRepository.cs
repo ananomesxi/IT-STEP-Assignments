@@ -25,9 +25,9 @@ namespace MovieInfrastructure.Repositories
             //await _movieDbContext.SaveChangesAsync(); ჩავანაცვლეთ unitOfWork-ით
         }
 
-        public async Task<ICollection<Movie>> GetAllMoviesAsync()
+        public async Task<ICollection<Movie>> GetAllMoviesAsync(CancellationToken cto = default) // todo add to all methods; default means cancellation token is optional
         {
-            return await _movieDbContext.Movies.Include(m => m.Studio).ToListAsync();
+            return await _movieDbContext.Movies.Include(m => m.Studio).ToListAsync(cto); 
         }
 
         public async Task<Movie> GetMovieByIdAsync (int id)

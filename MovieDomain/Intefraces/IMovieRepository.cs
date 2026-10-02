@@ -7,7 +7,7 @@ namespace MovieDomain.Intefraces
 {
     public interface IMovieRepository
     {
-        Task<ICollection<Movie>> GetAllMoviesAsync();
+        Task<ICollection<Movie>> GetAllMoviesAsync(CancellationToken cto = default);
         Task AddMovieAsync(Movie movie);
         Task<Movie> GetMovieByIdAsync(int id);
         Task DeleteMovieAsync(int id);

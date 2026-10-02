@@ -18,11 +18,12 @@ namespace MovieApplication.Implementations
             _movieRepository = movieRepository;
             _unitOfWork = unitOfWork;
         }
-        public async Task<ICollection<MovieDTO>> GetAllMoviesAsync() 
+        public async Task<ICollection<MovieDTO>> GetAllMoviesAsync(CancellationToken cto = default)  // todo: add to all methods
         {
-            var movies = await _movieRepository.GetAllMoviesAsync();
+            var movies = await _movieRepository.GetAllMoviesAsync(cto);
             var movieDtos = movies.Select(m => new MovieDTO
             {
+                Id = m.Id,
                 Title = m.Title,
                 ReleaseYear = m.ReleaseYear,
                 StudioName = m.Studio.Name
@@ -74,6 +75,7 @@ namespace MovieApplication.Implementations
 
             MovieDTO movieDto = new MovieDTO
             {
+                Id = movie.Id,
                 Title = movie.Title,
                 ReleaseYear = movie.ReleaseYear,
                 StudioName = movie.Studio.Name
