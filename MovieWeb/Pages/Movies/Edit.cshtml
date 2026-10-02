@@ -1,0 +1,68 @@
+﻿@page "{id:int}"
+@model MovieWeb.Pages.Movies.EditModel
+
+<link rel="stylesheet" href="~/css/movies.css" asp-append-version="true" />
+
+<main class="movies-page container py-5">
+    <section class="movie-details-panel">
+        <p class="movies-eyebrow mb-2">EDIT MOVIE</p>
+        <h1 class="movie-details-title mb-2">Edit a movie</h1>
+        <p class="text-secondary mb-4">Update the movie information below.</p>
+
+        @if (TempData["Error"] is string errorMessage)
+        {
+            <div class="movie-notice movie-notice-error" role="alert">
+                @errorMessage
+            </div>
+        }
+
+        <form method="post" asp-route-id="@Model.Id">
+            <div asp-validation-summary="ModelOnly"
+                 class="movie-notice movie-notice-error mb-4"
+                 role="alert"></div>
+
+            <div class="movie-form-field mb-4">
+                <label asp-for="Movie.Title" class="movie-form-label">Title</label>
+                <input asp-for="Movie.Title"
+                       class="form-control movie-form-control"
+                       placeholder="For example, Interstellar" />
+                <span asp-validation-for="Movie.Title"
+                      class="movie-validation-message"></span>
+            </div>
+
+            <div class="movie-form-field mb-4">
+                <label asp-for="Movie.ReleaseYear" class="movie-form-label">Release year</label>
+                <input asp-for="Movie.ReleaseYear"
+                       type="number"
+                       class="form-control movie-form-control" />
+                <span asp-validation-for="Movie.ReleaseYear"
+                      class="movie-validation-message"></span>
+            </div>
+
+            <div class="movie-form-field mb-4">
+                <label asp-for="Movie.StudioId" class="movie-form-label">Studio ID</label>
+                <input asp-for="Movie.StudioId"
+                       type="number"
+                       min="1"
+                       class="form-control movie-form-control" />
+                <span asp-validation-for="Movie.StudioId"
+                      class="movie-validation-message"></span>
+            </div>
+
+            <div class="d-flex flex-wrap gap-3">
+                <button type="submit" class="btn btn-primary movie-details-button">
+                    Save changes
+                </button>
+
+                <a asp-page="/Movies/Index"
+                   class="btn btn-primary movie-details-button movie-cancel-button">
+                    Back to Movies
+                </a>
+            </div>
+        </form>
+    </section>
+</main>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

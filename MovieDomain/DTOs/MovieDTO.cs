@@ -13,7 +13,6 @@ namespace MovieDomain.DTOs
         public string Title { get; set; } = string.Empty;
         public int ReleaseYear { get; set; }
         public string StudioName { get; set; } = string.Empty;
-
         public override string? ToString()
         {
             return $"Id = {Id}, Title = {Title}, ReleaseYear = {ReleaseYear}, StudioName = {StudioName}";

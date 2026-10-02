@@ -1,0 +1,51 @@
+﻿@page
+@model MovieWeb.Pages.Movies.CreateModel
+<link rel="stylesheet" href="~/css/movies.css" asp-append-version="true" />
+
+<main class="movies-page container py-5">
+    <section class="movie-details-panel create-movie-panel">
+        <p class="movies-eyebrow mb-2">MOVIE COLLECTION</p>
+        <h1 class="movie-details-title mb-2">Add a movie</h1>
+        <p class="text-secondary mb-4">Enter the movie information below.</p>
+
+        @if (TempData["Success"] is string successMessage)
+        {
+            <div class="movie-notice movie-notice-success" role="status">@successMessage</div>
+        }
+        @if (TempData["Error"] is string errorMessage)
+        {
+            <div class="movie-notice movie-notice-error" role="alert">@errorMessage</div>
+        }
+
+        <form method="post" class="create-movie-form">
+            <div asp-validation-summary="All" class="movie-validation-summary" role="alert"></div>
+
+            <div class="movie-form-field">
+                <label asp-for="Movie.Title" class="movie-form-label"></label>
+                <input asp-for="Movie.Title" class="form-control movie-form-control" maxlength="150" placeholder="For example, Interstellar" />
+                <span asp-validation-for="Movie.Title" class="movie-field-error"></span>
+            </div>
+
+            <div class="movie-form-field">
+                <label asp-for="Movie.ReleaseYear" class="movie-form-label">Release year</label>
+                <input asp-for="Movie.ReleaseYear" class="form-control movie-form-control" type="number" placeholder="For example, 2014" />
+                <span asp-validation-for="Movie.ReleaseYear" class="movie-field-error"></span>
+            </div>
+
+            <div class="movie-form-field">
+                <label asp-for="Movie.StudioId" class="movie-form-label">Studio ID</label>
+                <input asp-for="Movie.StudioId" class="form-control movie-form-control" type="number" placeholder="Enter the studio's ID" />
+                <span asp-validation-for="Movie.StudioId" class="movie-field-error"></span>
+                <small class="movie-form-hint">Enter the ID of a studio that already exists in your database.</small>
+            </div>
+
+            <div class="create-movie-actions">
+                <button type="submit" class="btn btn-primary movie-details-button">Save movie</button>
+                <a asp-page="/Movies/Index"
+                   class="btn btn-primary movie-details-button movie-cancel-button">
+                    ← Back to Movies
+                </a>
+            </div>
+        </form>
+    </section>
+</main>

@@ -1,12 +1,59 @@
 ﻿@page
 @model MovieWeb.Pages.Movies.IndexModel
+<link rel="stylesheet" href="~/css/movies.css" asp-append-version="true" />
 
 <main class="movies-page container py-5">
-    <header class="movies-heading mb-4">
-        <p class="movies-eyebrow mb-2">MOVIE COLLECTION</p>
-        <h1 class="display-5 fw-bold mb-2">Browse movies</h1>
-        <p class="text-secondary mb-0">Choose a movie to see its details.</p>
+    <header class="movies-heading-row mb-4">
+        <div>
+            <p class="movies-eyebrow mb-2">MOVIE COLLECTION</p>
+            <h1 class="display-5 fw-bold mb-2">Browse movies</h1>
+            <p class="text-secondary mb-0">Choose a movie to see its details.</p>
+        </div>
+        <a asp-page="/Movies/Create" class="btn btn-primary movie-details-button add-movie-button">
+            + Add a movie
+        </a>
     </header>
+
+    @if (TempData["Success"] is string successMessage)
+    {
+        <div class="movie-notice movie-notice-success" role="status">@successMessage</div>
+    }
+    @if (TempData["Error"] is string errorMessage)
+    {
+        <div class="movie-notice movie-notice-error" role="alert">@errorMessage</div>
+    }
+
+    <form method="post" asp-page-handler="Search" class="movie-search-panel mb-4">
+        <div class="movie-search-grid">
+            <div class="movie-form-field">
+                <label asp-for="Year" class="movie-form-label">Year</label>
+                <input asp-for="Year" type="number" class="form-control movie-form-control" />
+            </div>
+
+            <div class="movie-form-field">
+                <label asp-for="StudioName" class="movie-form-label">Studio</label>
+                <input asp-for="StudioName" class="form-control movie-form-control" />
+            </div>
+
+            <div class="movie-form-field">
+                <label asp-for="MinActorCount" class="movie-form-label">Minimum actors</label>
+                <input asp-for="MinActorCount" type="number" min="0"
+                       class="form-control movie-form-control" />
+            </div>
+        </div>
+
+
+        <div class="movie-search-actions mt-3">
+            <button type="submit" class="btn btn-primary movie-details-button">
+                Search movies
+            </button>
+
+            <a asp-page="/Movies/Index"
+               class="btn btn-primary movie-details-button movie-cancel-button">
+                Clear
+            </a>
+        </div>
+    </form>
 
     @if (Model.Movies.Count == 0)
     {
@@ -33,9 +80,19 @@
                                 <span class="movie-year">@movie.ReleaseYear</span>
                                 <span class="movie-studio">@movie.StudioName</span>
                             </div>
-                            <a asp-page="/Movies/Details" asp-route-id="@movie.Id" class="btn btn-primary movie-details-button mt-4">
-                                See details <span aria-hidden="true">→</span>
-                            </a>
+                            <div class="movie-card-actions mt-4">
+                                <a asp-page="/Movies/Details" asp-route-id="@movie.Id" class="btn btn-primary movie-details-button">
+                                    See details <span aria-hidden="true">→</span>
+                                </a>
+                                <a asp-page="/Movies/Edit"
+                                   asp-route-id="@movie.Id"
+                                   class="btn btn-primary movie-details-button">
+                                    Edit
+                                </a>
+                                <form method="post" asp-page-handler="Delete" asp-route-id="@movie.Id" class="movie-delete-form">
+                                    <button type="submit" class="btn movie-delete-button">Delete</button>
+                                </form>
+                            </div>
                         </div>
                     </article>
                 </div>
